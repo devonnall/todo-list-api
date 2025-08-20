@@ -21,6 +21,7 @@
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "express-rate-limit": "^8.0.1",
+    "firebase": "^12.1.0",
     "helmet": "^8.1.0",
     "pino": "^9.9.0",
     "pino-pretty": "^13.1.1",
