@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { createUser } from './users.service.js';
-import type { CreateUserBody } from './users.schema.js';
+import { createUser } from '../services/users.service.js';
+import type { CreateUserBody } from '../models/users.model.js';
 
 export const postUser = async (req: Request<{}, {}, CreateUserBody>, res: Response) => {
   const { email, name } = req.body;
