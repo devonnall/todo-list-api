@@ -41,6 +41,7 @@ export async function decodeFirebaseToken(req: Request, res: Response, next: Nex
         req.user = user;
         return next();
     } catch (err) {
+        console.error('verifyIdToken failed', err);
         return res.status(401).json({ error: 'invalid_or_expired_token'});
     }
 }

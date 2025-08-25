@@ -1,7 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import { rateLimit } from 'express-rate-limit';
+import { rateLimit, ipKeyGenerator } from 'express-rate-limit';
 import { decodeFirebaseToken } from './shared/middleware/auth.middleware.js';
 import { errorHandler } from './shared/middleware/error.js';
 import usersRoutes from './features/users/users.routes.js';
@@ -22,7 +22,15 @@ export const createApp = () => {
     standardHeaders: 'draft-8',
     legacyHeaders: false,
     // count by user when authenticated, else IP
-    keyGenerator: (req, _res) => (req as any).user?.id ?? req.ip,
+    // keyGenerator: (req, _res) => (req as any).user?.id ?? ipKeyGenerator(req.ip),
+    keyGenerator: (req, _res) => {
+ 		// Use API key (or some other identifier) for authenticated users
+ 		if (req.user?.id) return req.user?.id
+
+ 		// fallback to IP for unauthenticated users
+		// return req.ip // vulnerable
+		return ipKeyGenerator(req.ip!) // better
+	},
     // don’t rate-limit health
     skip: (req) => req.path === '/health',
   });
